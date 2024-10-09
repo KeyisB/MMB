@@ -33,6 +33,70 @@ except ImportError:
     pass
 
 
+class EventTarget:
+    @_typing.overload
+    def addEventListener(self, event: str, handler: _typing.Callable) -> None:
+        """
+        Регистрирует обработчик для указанного события.
+
+        Usage:
+
+            def beforeunload_func() -> None:
+                pass
+                
+            window.addEventListener('beforeunload', beforeunload_func)
+
+        Этот метод добавляет слушателя события для отслеживания определенного события,
+        происходящего в окне браузера.
+
+        :param event str: Название события, на которое регистрируется обработчик.
+        :param handler Callable: Функция-обработчик, которая будет вызвана при наступлении события.
+        """
+        ...
+    @_typing.overload
+    def addEventListener(self, event: str):
+        """
+        Регистрирует обработчик для указанного события.
+
+        Usage:
+        
+            @window.addEventListener('beforeunload')
+            def beforeunload_func() -> None:
+                pass
+                
+        Этот метод добавляет слушателя события для отслеживания определенного события,
+        происходящего в окне браузера.
+
+        :param event str: Название события, на которое регистрируется обработчик.
+
+        - beforeunload - Событие, вызывается перед завершением работы веб-страницы.
+
+        
+        """
+        def wrapper(func): # пример
+            return func
+        return wrapper
+    
+    def addEventListener(self, event: str, handler: _typing.Optional[_typing.Callable] = None) -> None:
+        ...
+    def dispatchEvent(self, event: str, *args, **kwargs) -> bool:
+        """
+        Отправляет событие в окне браузера.
+        
+        Usage:
+        
+            window.dispatchEvent('load')
+        
+        Этот метод отправляет указанное событие в окне браузера и возвращает True, если событие было успешно отправлено,
+        и False в противном случае.
+
+        :param event str: Название события, которое требуется отправить.
+
+        :return bool: True, если событие было успешно отправлено, и False в противном случае.
+        """
+        ...
+
+
 
 class __LocalVault:
     """
@@ -134,19 +198,6 @@ class __PyEngine:
         :param widget QWidget: Виджет, представляющий интерфейс страницы.
         """
         ...
-    def event(self, name: str):
-        """
-        Вызывается при событии.
-
-        Usage:
-        
-            @PyEngine.event('tab-closed')
-            def close(code: int) -> None:
-                pass
-        """
-        def wrapper(func): # пример
-            return func
-        return wrapper
 PyEngine = __PyEngine()
 
 
@@ -186,7 +237,7 @@ class __document_async:
         """
         ...
 document_async = __document_async()
-class __document:
+class __document(EventTarget):
     """
     Класс Document
 
@@ -395,7 +446,13 @@ class __window_async:
         URL и другие операции, связанные с навигацией, в асинхронном контексте.
         """
 window_async = __window_async()
-class __window:
+
+
+
+
+
+
+class __window(EventTarget):
     """
     Класс Window
 
@@ -410,18 +467,9 @@ class __window:
         self.history = self.__history()
         self.location = self.__location()
 
-    def addEventListener(self, event: str, handler: _typing.Callable) -> None:
-        """
-        Регистрирует обработчик для указанного события.
+    
+        
 
-        Этот метод добавляет слушателя события для отслеживания определенного события,
-        происходящего в окне браузера. Например, вы можете добавить обработчик для
-        события "popstate", чтобы реагировать на изменения в истории навигации.
-
-        :param event str: Название события, на которое регистрируется обработчик (например, "popstate").
-        :param handler Callable: Функция-обработчик, которая будет вызвана при наступлении события.
-        """
-        ...
 
     class __history:
         """
@@ -515,7 +563,9 @@ class __window:
 window = __window()
 
 
-class __files:
+
+
+class __files(EventTarget):
     """
     Класс Files
 
