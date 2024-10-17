@@ -558,7 +558,24 @@ class __window(EventTarget):
             :return Url: Текущий URL страницы.
             """
             ...
+        def changeUrl(self, url: _typing.Union[Url, str]) -> None:
+            """
+            Переходит на новый URL.
+
+            :param url:  новый URL.
+            """
+            ...
+        def replaceUrl(self, url: _typing.Union[Url, str]) -> None:
+            """
+            Этот метод заменяет текущий URL на новый.
+            
+            :param url:  новый URL.
+            """
+            ...
         def reload(self) -> None:
+            """
+            Этот метод перезагружает текущую веб-страницу.
+            """
             ...
 window = __window()
 
